@@ -3,23 +3,24 @@ package in.reqres.data;
 import lombok.Getter;
 import lombok.Setter;
 /**
- * Класс используется для сериализации аттрибута support
+ * Класс используется для сериализации полученых данных в датакласс
  *
  * @author Горячев Роман Юрьевич
  */
 @Getter
 @Setter
-public class Support {
+public class ResponseMessage {
     /**
-     * Адрес страницы
+     * токен
      *
      * @author Горячев Роман Юрьевич
      */
-    private String url;
+    private String token;
     /**
-     * Отображаемый текст
+     * ошибка
      *
      * @author Горячев Роман Юрьевич
      */
-    private String text;
+    private String error;
 }
+

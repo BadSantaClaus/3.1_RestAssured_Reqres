@@ -1,50 +1,71 @@
 package in.reqres;
 
-import in.reqres.data.DataUser;
-import in.reqres.data.Resourse;
-import in.reqres.helpers.Assert;
 import in.reqres.helpers.CustomListener;
-import io.qameta.allure.Attachment;
-import io.qameta.allure.Step;
-import org.testng.annotations.AfterMethod;
+import in.reqres.helpers.DataProvider;
+import io.qameta.allure.Feature;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import java.util.List;
-
-import static in.reqres.specifications.Specification.*;
-import static in.reqres.specifications.Specification.deleteSpec;
-import static io.restassured.RestAssured.given;
-
+import static in.reqres.helpers.Steps.*;
+import static in.reqres.helpers.StepsAssert.*;
+/**
+ * Класс используется для запуска тестов
+ *
+ * @author Горячев Роман Юрьевич
+ */
 @Listeners(CustomListener.class)
 public class APITests {
-    @Test()
+    /**
+     * Метод для запуска теста "Проверка, что аватары пользователей уникальны"
+     *
+     * @author Горячев Роман Юрьевич
+     */
+    @Feature("Проверка, что аватары пользователей уникальны")
+    @Test
     public void testAvatar() {
-        checkAvatars(getResource().getData());
+        checkAvatars(getUsers().getData());
     }
-
-    @Step("Получаю ресурс страницы")
-    public Resourse getResource() {
-        installSpec(requestSpec(), responseSpec200());
-        Resourse resourse =
-                given()
-                        .when()
-                        .get("/api/users?page=2")
-                        .then()
-                        .extract().body().as(Resourse.class);
-        return resourse;
+    /**
+     * Метод для запуска теста "Проверка на успешное логирование"
+     *
+     * @author Горячев Роман Юрьевич
+     * @param email email адрес для логина
+     * @param password пароль
+     */
+    @Feature("Проверка на успешное логирование")
+    @Test(dataProvider = "provideSuccessTestLogin", dataProviderClass = DataProvider.class)
+    public void testSuccessLogin(String email, String password) {
+        checkSuccesLogin(getSuccessResponse(email, password));
     }
-
-    @Step("Проверяем, что все аватары пользователей уникальны")
-    public void checkAvatars(List<DataUser> users){
-        for (int i = 0; i < users.size(); i++) {
-            for (int j = i + 1; j < users.size(); j++) {
-                    Assert.assertNotEquals(users.get(i).getAvatar(), users.get(j).getAvatar(), "Аватар у пользователя c id: "
-                            + users.get(i).getId() + " такой же как у пользователя с id: " + users.get(j).getId());
-            }
-        }
-        deleteSpec();
+    /**
+     * Метод для запуска теста "Проверка на логирование без ввода пароля"
+     *
+     * @author Горячев Роман Юрьевич
+     * @param email пароль
+     */
+    @Feature("Проверка на логирование без ввода пароля")
+    @Test(dataProvider = "provideFailTestLogin", dataProviderClass = DataProvider.class)
+    public void testFailLogin(String email) {
+        checkFailLogin(getErrorResponse(email));
     }
-
-
+    /**
+     * Метод для запуска теста "Проверка порядка расположения ресурсов в зависимости от года"
+     *
+     * @author Горячев Роман Юрьевич
+     */
+    @Feature("Проверка порядка расположения ресурсов в зависимости от года")
+    @Test
+    public void testResources() {
+        checkResources(getResources().getData());
+    }
+    /**
+     * Метод для запуска теста "Проверка количсетва тегов"
+     *
+     * @author Горячев Роман Юрьевич
+     * @param tagsQuantity количество тегов для проверки
+     */
+    @Feature("Проверка количсетва тегов")
+    @Test(dataProvider = "provideTestTagsQuantity", dataProviderClass = DataProvider.class)
+    public void testTagsQuantity(int tagsQuantity) {
+        checkTagsQuantity(tagsQuantity, getResponse());
+    }
 }

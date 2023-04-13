@@ -8,15 +8,17 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
+/**
+ * Класс используется для переопределения методов onTestStart, onTestSuccess, onTestFailure
+ * с класса ITestListener
+ *
+ * @author TestNG
+ */
 public class CustomListener implements ITestListener {
     private ByteArrayOutputStream request = new ByteArrayOutputStream();
     private ByteArrayOutputStream response = new ByteArrayOutputStream();
-
     private PrintStream requestVar = new PrintStream(request, true);
     private PrintStream responseVar = new PrintStream(response, true);
 
@@ -26,7 +28,6 @@ public class CustomListener implements ITestListener {
                 new RequestLoggingFilter(LogDetail.ALL, requestVar));
     }
 
-    @AfterMethod
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
         logRequest(request);
@@ -53,11 +54,6 @@ public class CustomListener implements ITestListener {
         log.reset();
         return array;
     }
-
-
-
-
-
 
     @Override
     public void onTestSkipped(ITestResult iTestResult) {

@@ -2,25 +2,42 @@ package in.reqres.data;
 
 import lombok.Getter;
 import lombok.Setter;
-
+/**
+ * Класс используется для сериализации аттрибута data
+ *
+ * @author Горячев Роман Юрьевич
+ */
 @Getter
 @Setter
 public class DataUser {
+    /**
+     * id
+     *
+     * @author Горячев Роман Юрьевич
+     */
     private Integer id;
+    /**
+     * email адрес
+     *
+     * @author Горячев Роман Юрьевич
+     */
     private String email;
+    /**
+     * имя
+     *
+     * @author Горячев Роман Юрьевич
+     */
     private String first_name;
+    /**
+     * фамилия
+     *
+     * @author Горячев Роман Юрьевич
+     */
     private String last_name;
+    /**
+     * аватарка
+     *
+     * @author Горячев Роман Юрьевич
+     */
     private String avatar;
-
-    public DataUser() {
-        super();
-    }
-
-    public DataUser(Integer id, String email, String first_name, String last_name, String avatar) {
-        this.id = id;
-        this.email = email;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.avatar = avatar;
-    }
 }
