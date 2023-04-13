@@ -72,7 +72,7 @@ public class StepsAssert {
      */
     @Step("Проверяем, что количество тэгов больше {quantity}")
     public static void checkTagsQuantity(int quantity, Response response) {
-        String[] words = response.asString().split("/");
+        String[] words = response.asString().split("</");
         Assert.assertEquals((words.length - 1), quantity, "Количество тэгов на странице не равно " + quantity);
     }
 }
