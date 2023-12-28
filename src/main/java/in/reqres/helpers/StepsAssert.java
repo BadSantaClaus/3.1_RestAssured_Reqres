@@ -5,12 +5,15 @@ import in.reqres.data.DataUser;
 import in.reqres.data.ResponseMessage;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
 /**
  * Класс используется для описания логики шагов прохождения проверок в тестах
  *
  * @author Горячев Роман Юрьевич
  */
+@Slf4j
 public class StepsAssert {
     /**
      * Метод для проверки, что все аватары пользователей уникальны
@@ -22,6 +25,7 @@ public class StepsAssert {
     public static void checkAvatars(List<DataUser> users) {
         for (int i = 0; i < users.size(); i++) {
             for (int j = i + 1; j < users.size(); j++) {
+                log.info(users.get(i).getAvatar() + " compare to " + users.get(j).getAvatar());
                 Assert.assertNotEquals(users.get(i).getAvatar(), users.get(j).getAvatar(), "Аватар у пользователя c id: "
                         + users.get(i).getId() + " такой же как у пользователя с id: " + users.get(j).getId());
             }
